@@ -46,10 +46,14 @@ function useCountDown(deadlineTime, onEnd) {
   useEffect(() => {
     let timer;
     function countdown() {
+      // Clear any existing timer
       clearTimeout(timer);
+      // Calculate current time and remaining time
       const nowTime = Date.now();
       const remainTime = (deadlineTime - nowTime) / 1000;
+      // Compute countdown information based on remaining time
       const data = computeCountdownInfo(remainTime);
+      // Update state with the countdown information
       setTimeInfo(data);
       if (remainTime > 0) {
         timer = setTimeout(countdown, 1000);
@@ -60,6 +64,7 @@ function useCountDown(deadlineTime, onEnd) {
       }
     }
     countdown();
+    // Clean-up function to clear timer when component unmounts or dependencies change
     return () => {
       clearTimeout(timer);
     };
